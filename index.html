@@ -138,49 +138,77 @@
       </header>
       <div class="container">
         <div class="hero">
+          <div class="hero-avatar">
+            <div class="hero-avatar-background"
+              style="border-radius: 1rem; translate: none; rotate: none; scale: none; transform: scale(1.02);"></div>
+            <img src="/assets/a.png" alt="LACV" class="hero-avatar-picture"
+              style="translate: none; rotate: none; scale: none; transform: rotate(-5.58887deg);">
+          </div>
 ... (file continues unchanged)
-      </div>
-    </div>
-  </div>
   <script>
     (function () {
       const LANG_KEY = 'site-lang';
-      function initLanguages() {
-        const menu = document.querySelector('.languages-menu');
-        if (!menu) return;
-        // Make sure menu is visible
-        menu.style.display = menu.style.display || 'flex';
-        // Attach click handlers
+      const LANGS = [
+        { code: 'EN', label: 'EN🇺🇸' },
+        { code: 'CN', label: 'CN🇨🇳' },
+        { code: 'ES', label: 'ES🇪🇸' },
+        { code: 'IT', label: 'IT🇮🇹' },
+        { code: 'AR', label: 'AR🇸🇦' },
+        { code: 'FR', label: 'FR🇫🇷' },
+        { code: 'PT', label: 'PT🇧🇷' },
+        { code: 'RU', label: 'RU🇷🇺' },
+        { code: 'JA', label: 'JA🇯🇵' },
+        { code: 'KO', label: 'KO🇰🇷' },
+        { code: 'NL', label: 'NL🇧🇪' },
+        { code: 'CA', label: 'CA🏴‍☠️' }
+      ];
+
+      function renderButtons() {
+        return LANGS.map(l => `<button data-lang="${l.code}">${l.label}</button>`).join('');
+      }
+
+      function attachHandlers(menu) {
         const buttons = menu.querySelectorAll('button[data-lang]');
         const saved = localStorage.getItem(LANG_KEY) || 'EN';
         buttons.forEach(b => {
           b.classList.toggle('active', b.dataset.lang === saved);
-          b.addEventListener('click', () => {
-            buttons.forEach(x => x.classList.remove('active'));
-            b.classList.add('active');
-            localStorage.setItem(LANG_KEY, b.dataset.lang);
-            // Dispatch an event so other scripts can react
-            window.dispatchEvent(new CustomEvent('site-language-changed', { detail: b.dataset.lang }));
-          });
+          if (!b._langHandlerAttached) {
+            b.addEventListener('click', () => {
+              buttons.forEach(x => x.classList.remove('active'));
+              b.classList.add('active');
+              localStorage.setItem(LANG_KEY, b.dataset.lang);
+              window.dispatchEvent(new CustomEvent('site-language-changed', { detail: b.dataset.lang }));
+            });
+            b._langHandlerAttached = true;
+          }
         });
       }
 
-      // If React overwrites static DOM, try to run after React mount
-      // Observe #root and initialize when header appears
-      const root = document.getElementById('root');
-      if (root) {
-        const mo = new MutationObserver((mutations, obs) => {
-          if (document.querySelector('.languages-menu')) {
-            initLanguages();
-            obs.disconnect();
-          }
-        });
-        mo.observe(root, { childList: true, subtree: true });
-        // Also try once after short delay
-        setTimeout(initLanguages, 800);
-      } else {
-        document.addEventListener('DOMContentLoaded', initLanguages);
+      function ensureLanguages() {
+        const menu = document.querySelector('.languages-menu');
+        if (!menu) return;
+        const existing = menu.querySelectorAll('button[data-lang]').length;
+        if (existing !== LANGS.length) {
+          menu.innerHTML = renderButtons();
+        }
+        attachHandlers(menu);
+        // Make sure menu is visible to script (CSS controls final show/hide)
+        menu.style.display = menu.style.display || 'flex';
       }
+
+      // Observe DOM changes and ensure our languages are present when header is (React may overwrite)
+      const observer = new MutationObserver((mutations) => {
+        ensureLanguages();
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+
+      // Initial attempts
+      document.addEventListener('DOMContentLoaded', () => {
+        ensureLanguages();
+        setTimeout(ensureLanguages, 500);
+      });
+      // Also try on load in case script is injected after
+      setTimeout(ensureLanguages, 800);
     })();
   </script>
 </body>

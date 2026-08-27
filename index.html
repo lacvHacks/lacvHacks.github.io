@@ -138,26 +138,51 @@
       </header>
       <div class="container">
         <div class="hero">
-          <div class="hero-avatar">
-            <div class="hero-avatar-background"
-              style="border-radius: 1rem; translate: none; rotate: none; scale: none; transform: scale(1.02);"></div>
-            <img src="/assets/a.png" alt="LACV" class="hero-avatar-picture"
-              style="translate: none; rotate: none; scale: none; transform: rotate(-5.58887deg);">
-          </div>
-          <div class="hero-title">
-            <h1>
-              <div class="word" style="display: inline-block;">
-                <div class="title-letter"
-                  style="display: inline-block; translate: none; rotate: none; scale: none; transform: translate(0px);">
-                  l</div>
-                <div class="title-letter"
-                  style="display: inline-block; translate: none; rotate: none; scale: none; transform: translate(0px);">
-                  a</div>
-                <div class="title-letter"
-                  style="display: inline-block; translate: none; rotate: none; scale: none; transform: translate(0px);">
-                  c</div>
-              </div>
 ... (file continues unchanged)
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const LANG_KEY = 'site-lang';
+      function initLanguages() {
+        const menu = document.querySelector('.languages-menu');
+        if (!menu) return;
+        // Make sure menu is visible
+        menu.style.display = menu.style.display || 'flex';
+        // Attach click handlers
+        const buttons = menu.querySelectorAll('button[data-lang]');
+        const saved = localStorage.getItem(LANG_KEY) || 'EN';
+        buttons.forEach(b => {
+          b.classList.toggle('active', b.dataset.lang === saved);
+          b.addEventListener('click', () => {
+            buttons.forEach(x => x.classList.remove('active'));
+            b.classList.add('active');
+            localStorage.setItem(LANG_KEY, b.dataset.lang);
+            // Dispatch an event so other scripts can react
+            window.dispatchEvent(new CustomEvent('site-language-changed', { detail: b.dataset.lang }));
+          });
+        });
+      }
+
+      // If React overwrites static DOM, try to run after React mount
+      // Observe #root and initialize when header appears
+      const root = document.getElementById('root');
+      if (root) {
+        const mo = new MutationObserver((mutations, obs) => {
+          if (document.querySelector('.languages-menu')) {
+            initLanguages();
+            obs.disconnect();
+          }
+        });
+        mo.observe(root, { childList: true, subtree: true });
+        // Also try once after short delay
+        setTimeout(initLanguages, 800);
+      } else {
+        document.addEventListener('DOMContentLoaded', initLanguages);
+      }
+    })();
+  </script>
 </body>
 
 </html>

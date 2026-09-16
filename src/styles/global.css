@@ -171,7 +171,14 @@ p {
   background-color: var(--clr-primary);
 }
 
+/* Estado inicial (evita el flash verde antes de que corra GSAP):
+   el panel de entrada arranca oculto y el de salida cubriendo. */
+.transition-slide-in {
+  transform: scaleY(0);
+}
+
 .transition-slide-out {
+  transform: scaleX(1);
   transform-origin: left;
 }
 

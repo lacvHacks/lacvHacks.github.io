@@ -19,7 +19,8 @@ extraído, las recetas de animación y las reglas para no romper nada.
 - **bootstrap-icons** (react-icons/bs): todos los iconos SVG quedaron
   reimplementados a mano en `src/components/icons.jsx`.
 - Dark mode: clase `.dark-mode` en `<html>`; persistencia `isDark`.
-- Deploy: GitHub Pages desde la raíz de `main`; ahora via GitHub Actions.
+- Deploy: GitHub Pages sirviendo la rama `gh-pages` (build subido por
+  `npm run deploy` / `scripts/deploy-gh-pages.sh`).
 
 ## Nota crítica: el CSS original estaba truncado
 

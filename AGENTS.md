@@ -35,8 +35,13 @@ Convenciones
 
 Despliegue (GitHub Pages)
 -------------------------
-- .github/workflows/deploy.yml compila con Vite y publica /dist con Actions.
-- En el repositorio hay que activar: Settings → Pages → Source: GitHub Actions.
+- `npm run deploy` compila con Vite y publica /dist en la rama `gh-pages`
+  (script: scripts/deploy-gh-pages.sh). Pages sirve desde `gh-pages` /(root).
+- Se usa rama y no GitHub Actions porque el token OAuth local no tiene el
+  scope `workflow` (GitHub rechaza subir .github/workflows/* sin él).
+  Si algún día se agrega ese scope, se puede migrar a Actions.
+- El script copia dist/index.html a 404.html para que las rutas profundas
+  (/cursos, etc.) funcionen como SPA en Pages.
 - El build usa base './' (rutas relativas) para que sirva desde la raíz.
 
 Páginas

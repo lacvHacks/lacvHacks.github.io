@@ -1,9 +1,27 @@
+/* =====================================================================
+   global.css — Estilos globales del sitio LACV.
+   ---------------------------------------------------------------------
+   Base:  portada 1:1 del CSS del build original (index-322fc492.css).
+   Extra: el build original estaba TRUNCADO (terminaba con el texto
+          "... (file continues unchanged)"): los estilos de hero, avatares,
+          títulos animados, estadísticas y footer se habían perdido.
+          Se reconstruyeron abajo en la sección "Estilos reconstruidos",
+          respetando la identidad visual (variables --clr-*).
+   ===================================================================== */
+
+/* ---------- Tipografías ---------- */
 @import "https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap";
 @import "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200;12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap";
+
+/* ---------- Paleta de colores / variables ---------- */
 :root {
   scroll-behavior: smooth;
+
+  /* Tipografías */
   --ff-title: "Bricolage Grotesque", sans-serif;
   --ff-text: "Rubik", sans-serif;
+
+  /* Colores (modo claro) */
   --clr-text: #1c1c1c;
   --clr-text-transparent: rgba(28, 28, 28, 0.8);
   --clr-bg: #dcf7ec;
@@ -14,68 +32,97 @@
   --clr-light-transparent: rgba(242, 235, 217, 0.8);
   --clr-discord: #5865f2;
   --clr-youtube: #ff0000;
-  --clr-primary: #015D52;
+  --clr-primary: #015d52;
   --clr-primary-transparent: #ff3c0080;
   --clr-arroba: #5e773e;
+
+  /* Altura del header, medida por JS y usada por el hero */
+  --header-height: 4.25rem;
 }
+
+/* Variables que cambian en modo oscuro */
 :root.dark-mode {
   --clr-text: #f2ebd9;
   --clr-text-transparent: rgba(242, 235, 217, 0.8);
   --clr-bg: #1c1c1c;
   --clr-bg-transparent: rgba(28, 28, 28, 0.8);
 }
+
+/* ---------- Reset básico ---------- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 *::-moz-selection {
   background-color: var(--clr-primary);
   color: var(--clr-text);
 }
+
 *::selection {
   background-color: var(--clr-primary);
   color: var(--clr-text);
 }
+
 #root {
   white-space: pre-wrap;
 }
+
 body {
   background-color: var(--clr-bg);
   color: var(--clr-text);
   font-family: var(--ff-text);
   overflow-x: hidden;
 }
+
 a {
   text-decoration: none;
   color: inherit;
 }
+
 ul {
   list-style-type: none;
 }
+
 h1,
 h2,
 h3 {
   font-family: var(--ff-title);
 }
+
+/* ---------- Utilidades ---------- */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding-inline: 1.5rem;
 }
+
 img {
   display: block;
   max-width: 100%;
 }
+
 p {
   font-size: 1.25rem;
 }
+
+/* Contenedor de toda la app: columna que ocupa toda la pantalla */
 .App {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   min-height: 100lvh;
 }
+
+/* Zona entre header y footer (donde vive cada página) */
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Página 404 ---------- */
 .not-found {
   display: flex;
   flex-direction: column;
@@ -84,12 +131,16 @@ p {
   text-align: center;
   gap: 2rem;
 }
+
 .not-found h1 {
   font-size: 2rem;
 }
+
 .mt-1 {
   margin-top: 1rem;
 }
+
+/* ---------- Carga inicial (barras que "cargan" el sitio) ---------- */
 .loader {
   position: fixed;
   display: flex;
@@ -100,10 +151,13 @@ p {
   left: 0;
   z-index: 99999;
 }
+
 .loader-bar {
   background-color: var(--clr-primary);
   flex-grow: 1;
 }
+
+/* ---------- Transición de página (overlays deslizantes) ---------- */
 .transition-slide-in,
 .transition-slide-out {
   position: fixed;
@@ -116,12 +170,16 @@ p {
   transform-origin: bottom;
   background-color: var(--clr-primary);
 }
+
 .transition-slide-out {
   transform-origin: left;
 }
+
+/* ---------- Tooltips (nav "Próximamente" / "Coderhouse") ---------- */
 [data-tooltip] {
   position: relative;
 }
+
 [data-tooltip]:after {
   content: attr(data-tooltip);
   position: absolute;
@@ -136,10 +194,13 @@ p {
   transition: 0.2s;
   transform-origin: center top;
 }
+
 [data-tooltip]:hover:after {
   transform: translate(-50%) scale(1);
   transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
+/* ---------- Botones genéricos ---------- */
 .buttons {
   display: flex;
   flex-wrap: wrap;
@@ -147,6 +208,7 @@ p {
   -moz-column-gap: 0.5rem;
   column-gap: 0.5rem;
 }
+
 .button {
   margin-top: 0.5rem;
   padding: 0.5rem 1rem;
@@ -156,23 +218,31 @@ p {
   transition: 0.2s;
   transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
 @media screen and (max-width: 500px) {
   .button {
     font-size: 0.9rem;
   }
 }
+
 .button:hover {
   background-color: var(--clr-primary);
   transform: scale(1.1);
 }
+
 .button.button-orange {
   background-color: var(--clr-primary);
   color: var(--clr-light);
 }
+
 .button.button-orange:hover {
   background-color: var(--clr-dark);
   color: var(--clr-light);
 }
+
+/* ================================================================
+   HEADER
+   ================================================================ */
 .header {
   padding: 1rem 3rem;
   display: flex;
@@ -186,16 +256,21 @@ p {
   backdrop-filter: blur(10px);
   z-index: 999;
 }
+
 @media screen and (max-width: 600px) {
   .header {
     padding: 1rem 2rem;
   }
 }
+
 @media screen and (max-width: 500px) {
   .header {
     padding: 1rem;
   }
 }
+
+/* Logo (@lacvHacks). Las letras se animan por separado con GSAP luego
+   de <span> de color (a mano alzada) que SplitType convierte en chars */
 .header-logo {
   font-family: var(--ff-title);
   font-size: 2rem;
@@ -203,16 +278,28 @@ p {
   transition: 0.2s;
   color: var(--clr-text);
 }
+
 .header-logo .dot {
   color: var(--clr-primary);
 }
+
 .header-logo .arroba {
   color: var(--clr-arroba);
 }
+
+/* Letras del logo después de dividir con SplitType (chars) */
+.header-logo .char {
+  display: inline-block;
+  white-space: pre;
+}
+
+/* Navegación principal */
 .header .nav-list {
   display: flex;
   gap: 1rem;
 }
+
+/* Subrayado animado de los enlaces */
 .header .nav-link:before {
   position: absolute;
   height: 1px;
@@ -225,19 +312,24 @@ p {
   transition: 0.2s;
   transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
 .header .nav-link:hover,
 .header .nav-link.active {
   color: var(--clr-primary);
 }
+
 .header .nav-link:hover:before,
 .header .nav-link.active:before {
   transform: scaleX(1);
 }
+
 @media screen and (max-width: 700px) {
   .header .nav {
     display: none;
   }
 }
+
+/* Selector de idiomas (ES/EN/PT) */
 .header .languages {
   font-family: var(--ff-title);
   display: flex;
@@ -245,6 +337,7 @@ p {
   align-items: center;
   position: relative;
 }
+
 .header .languages button {
   background-color: transparent;
   cursor: pointer;
@@ -256,20 +349,24 @@ p {
   border-radius: 0.5rem;
   border: 1px solid transparent;
 }
+
 .header .languages button.active {
   color: var(--clr-primary);
   transform: scale(1.05);
   border-color: var(--clr-primary);
 }
+
 .header .languages b {
   color: var(--clr-primary);
 }
+
 .header .languages-open-menu {
   color: var(--clr-primary);
   width: 1.5rem;
   height: 1.5rem;
   cursor: pointer;
 }
+
 .header .languages-menu {
   position: absolute;
   top: calc(100% + 0.5rem);
@@ -284,13 +381,13 @@ p {
   transform: scale(0);
   transition: 0.25s;
   transform-origin: top right;
-  /* ensure dropdown is above other elements and not clipped */
   z-index: 10000;
   overflow: visible;
   max-height: none;
   min-width: 8rem;
   box-shadow: 0 6px 18px rgba(1, 93, 82, 0.12);
 }
+
 @media screen and (max-width: 700px) {
   .header .languages-menu {
     left: calc(100% + 0.5rem);
@@ -300,10 +397,13 @@ p {
     right: unset;
   }
 }
+
 .header .languages-menu.active {
   transform: scale(1);
   transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
+/* Botones de menú móvil (hamburguesa / cerrar) */
 .header .open-menu,
 .header .close-menu {
   width: 2rem;
@@ -311,33 +411,41 @@ p {
   cursor: pointer;
   display: none;
 }
+
 @media screen and (max-width: 700px) {
   .header .open-menu {
     display: block;
   }
 }
+
+/* Grupo de botones de la derecha (idiomas + modo claro/oscuro) */
 .header-buttons {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
+
 @media screen and (max-width: 700px) {
   .header-buttons {
     display: none;
   }
 }
+
 .header-buttons .color-mode {
   display: flex;
   align-items: center;
   background-color: transparent;
   border: 0;
 }
+
 .header-buttons .color-mode svg {
   width: 1.25rem;
   height: 1.25rem;
   color: var(--clr-primary);
   cursor: pointer;
 }
+
+/* Estado de menú móvil activo (ocupa toda la pantalla) */
 .header.menu-active {
   position: fixed;
   height: 100vh;
@@ -347,20 +455,24 @@ p {
   align-items: start;
   justify-content: start;
 }
+
 .header.menu-active .open-menu {
   display: none;
 }
+
 .header.menu-active .close-menu {
   display: block;
   position: absolute;
   top: 1rem;
   right: 1rem;
 }
+
 .header.menu-active .nav {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
+
 .header.menu-active .nav-list {
   flex-grow: 1;
   flex-direction: column;
@@ -368,10 +480,12 @@ p {
   justify-content: space-evenly;
   font-size: 2rem;
 }
+
 .header.menu-active .nav-item {
   width: -moz-max-content;
   width: max-content;
 }
+
 .header.menu-active .nav-link:after {
   font-size: 0.5em;
   top: 50%;
@@ -381,12 +495,18 @@ p {
   width: -moz-max-content;
   width: max-content;
 }
+
 .header.menu-active .header-logo {
   display: none;
 }
+
 .header.menu-active .header-buttons {
   display: flex;
 }
+
+/* ================================================================
+   SECCIÓN DE ACCESOS RÁPIDOS (YouTube / Discord / Donaciones)
+   ================================================================ */
 .shortcuts {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -394,18 +514,21 @@ p {
   gap: 2rem;
   padding-block: 1rem;
 }
+
 @media screen and (max-width: 1200px) {
   .shortcuts {
     grid-template-columns: 1fr 1fr;
     grid-template-areas: "youtube discord" "donations donations";
   }
 }
+
 @media screen and (max-width: 600px) {
   .shortcuts {
     display: flex;
     flex-direction: column;
   }
 }
+
 .shortcuts .shortcut {
   background-color: var(--clr-bg);
   color: var(--clr-text);
@@ -417,4 +540,198 @@ p {
   transition-timing-function: ease, ease,
     cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-... (file continues unchanged)
+
+/* Sombrero de cada tarjeta: icono + título */
+.shortcut-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.shortcut-header > svg {
+  flex-shrink: 0;
+  color: var(--clr-primary);
+}
+
+/* El texto/título de las tarjetas usa la tipografía de título */
+.shortcut-header h2 {
+  font-size: 1.5rem;
+}
+
+/* Los enlaces de donaciones se distinguen claro (botón "Donar") */
+.shortcut .button {
+  margin-top: 1rem;
+}
+
+/* ================================================================
+   ESTILOS RECONSTRUIDOS
+   (faltaban en el build original, truncado a mano)
+   ================================================================ */
+
+/* ---------- Hero ---------- */
+/* Ocupa el alto de la pantalla menos el header; 3 columnas:
+   avatar · título/descripción · estadísticas. En pantallas chicas
+   se apilan. */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  align-items: center;
+  gap: 2rem;
+  min-height: calc(100vh - var(--header-height));
+  padding-block: 3rem 2rem;
+}
+
+@media screen and (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding-block: 2rem;
+  }
+}
+
+/* ---------- Avatar ---------- */
+.hero-avatar {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  margin-inline: auto;
+}
+
+/* Fondo detrás de la imagen (cuadrado verde que rota/scala al hover) */
+.hero-avatar-background {
+  position: absolute;
+  inset: 0;
+  background-color: var(--clr-primary);
+  border-radius: 1rem;
+}
+
+/* La foto: a.png (o b.png al pasar el mouse). Bordes redondeados
+   para que el recorte cuadrado no corte la cara. */
+.hero-avatar-picture {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 1rem;
+}
+
+/* ---------- Título animado (SplitType) ---------- */
+.hero-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+/* Cada letra del título/split es un elemento propio: se necesita
+   inline-block para que transformaciones (rotate/translate/scale)
+   funcionen letra por letra */
+.title-letter {
+  display: inline-block;
+  white-space: pre;
+}
+
+/* Cada "palabra" del split dentro de .hero-title también inline-block
+   para evitar que las palabras queden en bloques separados */
+.hero-title .word {
+  display: inline-block;
+}
+
+.hero-description {
+  margin-top: 1.25rem;
+  max-width: 45ch;
+}
+
+@media screen and (max-width: 900px) {
+  .hero-description {
+    margin-inline: auto;
+  }
+}
+
+/* ---------- Estadísticas (YouTube API) ---------- */
+.hero-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-stat-number {
+  font-family: var(--ff-title);
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--clr-primary);
+  white-space: nowrap;
+}
+
+.hero-stat-text {
+  font-size: 1rem;
+  opacity: 0.85;
+}
+
+/* ---------- Footer ---------- */
+/* El footer está pegado al final de la página gracias al
+   flex-grow: 1 del .main que empuja todo hacia arriba */
+.footer {
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--clr-primary);
+  /* separa del contenido */
+  margin-top: 3rem;
+}
+
+.social {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Enlaces de redes sociales: sobresalen un poco al hover */
+.social a {
+  color: var(--clr-text);
+  display: inline-flex;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  transition: 0.2s;
+}
+
+.social a:hover {
+  color: var(--clr-primary);
+  transform: translateY(-3px);
+}
+
+.social svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* ---------- Páginas placeholder (Cursos, Repasos, Donaciones) ---------- */
+.info-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1.5rem;
+  padding-block: 4rem;
+  flex-grow: 1;
+}
+
+.info-section h1 {
+  font-size: clamp(1.75rem, 4vw, 3rem);
+}
+
+.info-section .soon-badge {
+  font-family: var(--ff-title);
+  color: var(--clr-primary);
+  border: 2px solid var(--clr-primary);
+  border-radius: 100vmax;
+  padding: 0.4rem 1.2rem;
+  display: inline-block;
+}

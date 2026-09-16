@@ -1,1 +1,18 @@
+# Dependencias
+node_modules/
+
+# Build de Vite (GitHub Pages se publica desde el flujo de Actions, no desde /dist)
+dist/
+
+# Sistema / editor
 .DS_Store
+*.local
+
+# Salida de pruebas de navegador (playwright-cli)
+.playwright-cli/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

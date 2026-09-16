@@ -59,14 +59,27 @@ export default function HeroAvatar() {
       container.addEventListener('mouseenter', () => {
         setHovered(true); // cambia la foto a b.png
 
-        // La foto se achica, rota y redondea esquinas
-        gsap.to(picture, {
-          scale: 0.7,
+        // La foto hace un giro de "guiño" (se pone de cabeza un instante)
+        // pero TERMINA en rotate 0: al acabar la animación b.png queda
+        // posicionada igual que a.png.
+        const timeline = gsap.timeline();
+        timeline.to(picture, {
           rotate: () => (randomRotation() + 180) * -1,
-          borderRadius: '3rem',
-          duration: 0.3,
+          duration: 0.25,
           ease: 'back.out(3)',
         });
+        timeline.to(picture, { rotate: 0, duration: 0.35, ease: 'power2.out' });
+        // La foto se achica y redondea esquinas (en paralelo al giro)
+        timeline.to(
+          picture,
+          {
+            scale: 0.7,
+            borderRadius: '3rem',
+            duration: 0.3,
+            ease: 'back.out(3)',
+          },
+          0,
+        );
         // El fondo se agranda y rota un poco
         gsap.to(background, {
           scale: 1.1,

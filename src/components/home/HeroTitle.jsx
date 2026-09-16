@@ -101,7 +101,10 @@ export default function HeroTitle() {
   }, [language]);
 
   return (
-    <div>
+    // key={language} fuerza a React a remontar el bloque al cambiar de idioma:
+    // SplitType reemplaza el DOM con spans, así que los nodos de texto que
+    // React conoce quedan obsoletos y el texto no se actualizaría solo.
+    <div key={language}>
       {/* Título: se divide en letras (charClass title-letter) para animar */}
       <h1 className="hero-title" ref={titleRef}>
         {t('hero.title1')}

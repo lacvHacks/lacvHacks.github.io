@@ -5,7 +5,7 @@ Sitio personal de **Luis Caicedo (LACV)**: contenido sobre Ciberseguridad
 
 Reconstruido desde cero (solo quedaba el bundle minificado del build
 original) como un proyecto fuente **Vite + React 18 + GSAP + SplitType**,
-con i18n en español, inglés y portugués (español por defecto), dark mode y
+con i18n en 12 idiomas (español por defecto, árabe con RTL), dark mode y
 despliegue a GitHub Pages (rama `gh-pages`).
 
 ## Desarrollo

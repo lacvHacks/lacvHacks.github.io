@@ -382,9 +382,10 @@ p {
   border: 1px solid var(--clr-primary);
   padding: 1rem;
   border-radius: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  /* 12 idiomas en 2 columnas para que el menú no quede larguísimo */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.25rem;
   transform: scale(0);
   transition: 0.25s;
   transform-origin: top right;
@@ -403,6 +404,13 @@ p {
     width: auto;
     right: unset;
   }
+}
+
+/* --- Soporte RTL (árabe): espeja el desplegable anclado a la derecha --- */
+[dir='rtl'] .header .languages-menu {
+  right: auto;
+  left: 0;
+  transform-origin: top left;
 }
 
 .header .languages-menu.active {

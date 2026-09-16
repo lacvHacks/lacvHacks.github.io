@@ -13,7 +13,7 @@ Estructura
 - src/                → código fuente React
 - src/main.jsx        → montaje (registra GSAP, i18n ya inicializado)
 - src/App.jsx         → layout raíz + rutas + transición
-- src/i18n.js         → textos ES/EN/PT (namespace "global")
+- src/i18n.js         → textos de 12 idiomas (namespace "global") + LANGUAGES/applyLanguage
 - src/styles/global.css → estilos (base portada del build original + reconstruidos)
 - src/components/layout/    → Header, Footer, LanguageMenu, ColorMode
 - src/components/home/      → Hero, HeroTitle, HeroAvatar, HeroStats, Shortcuts

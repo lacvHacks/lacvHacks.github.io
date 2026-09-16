@@ -1,27 +1,24 @@
 /**
- * LanguageMenu.jsx — Selector de idioma (ES / EN / PT).
+ * LanguageMenu.jsx — Selector de idioma (12 idiomas).
  *
  * Comportamiento clonado del bundle original:
- *  - Un botón-globo abre un menú desplegable con los 3 idiomas.
+ *  - Un botón-globo abre un menú desplegable con los idiomas.
  *  - El idioma activo queda marcado con la clase .active.
  *  - Al elegir idioma: se llama i18n.changeLanguage(), se guarda en
  *    localStorage ("i18nextLng", misma clave que usaba el original) y se
- *    sincroniza el atributo lang del <html>.
+ *    sincronizan los atributos lang y dir del <html> (árabe = RTL).
  *  - Animación de entrada: desliza desde abajo con opacidad 0 (delay 1.5s
  *    en la carga inicial; 0.5s cuando se abrió/cerró el menú móvil).
+ *
+ * La lista de idiomas y el helper applyLanguage viven en src/i18n.js para
+ * tener una única fuente de verdad.
  */
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { IconGlobe } from '../icons';
-
-// Idiomas disponibles (el orden define el de las columnas del menú)
-const LANGUAGES = [
-  { code: 'es', label: 'ES' },
-  { code: 'en', label: 'EN' },
-  { code: 'pt', label: 'PT' },
-];
+import { LANGUAGES, applyLanguage } from '../../i18n';
 
 export default function LanguageMenu({ menuActive = false }) {
   const { i18n } = useTranslation();
@@ -29,6 +26,9 @@ export default function LanguageMenu({ menuActive = false }) {
 
   // Referencias para la animación de entrada
   const containerRef = useRef(null);
+
+  // Código de idioma activo sin región (por si i18next devuelve "pt-BR", etc.)
+  const activeCode = (i18n.language || 'es').split('-')[0];
 
   /**
    * Animación del bloque completo (globo + menú):
@@ -60,17 +60,12 @@ export default function LanguageMenu({ menuActive = false }) {
   /**
    * Cambia de idioma:
    *  - i18n.changeLanguage() re-renderiza todo con los textos nuevos
-   *  - localStorage: persistencia (i18nextLng)
-   *  - document.documentElement.lang: atributo de idioma en <html>
+   *  - applyLanguage() sincroniza lang + dir del <html> y persiste en
+   *    localStorage (i18nextLng)
    */
   const handleLanguage = (code) => {
     i18n.changeLanguage(code);
-    document.documentElement.lang = code;
-    try {
-      localStorage.setItem('i18nextLng', code);
-    } catch {
-      /* localStorage no disponible */
-    }
+    applyLanguage(code);
     setOpen(false); // y cierra el desplegable
   };
 
@@ -95,7 +90,7 @@ export default function LanguageMenu({ menuActive = false }) {
           <button
             key={code}
             type="button"
-            className={i18n.language === code ? 'active' : ''}
+            className={activeCode === code ? 'active' : ''}
             onClick={() => handleLanguage(code)}
           >
             {label}
